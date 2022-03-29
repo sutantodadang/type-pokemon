@@ -1,12 +1,26 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux';
-import { AuthReducer } from './reducer/auth_reducer';
-import { PokemonReducer } from './reducer/pokemon_reducer';
+import { AuthReducer, AuthSlice } from './reducer/auth_reducer';
+import { PokemonSlice } from './reducer/pokemon_reducer';
+import { GlobalReducer, GlobalSlice } from './reducer/global_reducer';
 
 import logger from 'redux-logger';
+import { configureStore } from '@reduxjs/toolkit';
 
-const AllReducer = combineReducers({
-  auth: AuthReducer,
-  poke: PokemonReducer
+// const AllReducer = combineReducers({
+//   auth: AuthReducer,
+//   poke: PokemonReducer,
+//   globalState: GlobalReducer
+// });
+
+export const store = configureStore({
+  reducer: {
+    auth: AuthSlice.reducer,
+    poke: PokemonSlice.reducer,
+    glob: GlobalSlice.reducer
+  },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger)
 });
 
-export const MyStore = createStore(AllReducer, applyMiddleware(logger));
+export type RootState = ReturnType<typeof store.getState>;
+
+// export const MyStore = createStore(AllReducer, applyMiddleware(logger));

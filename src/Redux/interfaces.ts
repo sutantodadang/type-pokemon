@@ -5,8 +5,21 @@ export interface User {
   isLogged: boolean;
 }
 
+export interface COLOR {
+  Vibrant: string;
+  Muted: string;
+  DarkVibrant: string;
+  DarkMuted: string;
+  LightVibrant: string;
+}
+
+export interface GLOBAL {
+  loading: boolean;
+  color: COLOR;
+}
+
 export interface Pokemon {
-  abilities: object[];
+  abilities: Array<{}>;
   base_experience: number;
   forms: object[];
   game_indices: object[];
@@ -22,6 +35,6 @@ export interface Pokemon {
   species: object;
   sprites: any;
   stats: object[];
-  types: object[];
+  types: Array<{}>;
   weight: number;
 }

@@ -1,18 +1,24 @@
-import React, {
-  ButtonHTMLAttributes,
-  useEffect,
-  useReducer,
-  useState
-} from 'react';
+import React, { useEffect, useState } from 'react';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import LoadingComp from '../components/LoadingComp';
+import PokemonCard from '../components/PokemonCard';
 import { GetListPokemon } from '../functions/API';
-import { GetAllPokemon } from '../Redux/actions';
+import { GetAllPokemon, LoadingGlobal } from '../Redux/actions';
 import { Pokemon } from '../Redux/interfaces';
 
 const Home: React.FC = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  // const [loading, setLoading] = useState<boolean>(false);
 
   const [count, setCount] = useState<number>(0);
+  const [limit, setLimit] = useState<number>(20);
+
+  const loading: boolean = useSelector(
+    (state: RootStateOrAny) => state.globalState?.loading
+  );
 
   const data: Pokemon[] = useSelector(
     (state: RootStateOrAny) => state.poke?.data
@@ -21,33 +27,43 @@ const Home: React.FC = () => {
   const nextPoke = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    if (count === 19) {
-      setCount(0);
+    if (data.length - 5 === count) {
+      // setCount(0);
+      setLimit((prev) => prev + 20);
+      // dispatch(LoadingGlobal(true));
+      GetListPokemon(limit).then((res) => dispatch(GetAllPokemon(res)));
+      // dispatch(LoadingGlobal(false));
     }
 
     setCount((prev) => prev + 1);
   };
 
-  useEffect(() => {
-    GetListPokemon(20).then((res) => dispatch(GetAllPokemon(res)));
-  }, []);
+  const prevPoke = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    setCount((prev) => prev - 1);
+  };
+
   return (
-    <section className="flex items-center justify-center h-screen w-screen content-center flex-col ">
-      <h2>Type Pokemon</h2>
+    <section className="flex items-center justify-center h-screen w-screen content-center flex-col m-4">
+      <h1 className="text-3xl">Type Pokemon</h1>
 
-      <img
-        src={data[count].sprites?.other?.dream_world?.front_default}
-        alt=""
-        className="h-1/2 w-full"
-      />
-
-      <button
-        type="button"
-        className="w-28 h-8 rounded-lg bg-amber-300 hover:bg-amber-600"
-        onClick={nextPoke}
-      >
-        Next Pokemon
-      </button>
+      {loading ? (
+        <LoadingComp />
+      ) : (
+        <div className="grid grid-flow-row auto-rows-max grid-cols-4 w-screen h-screen">
+          {data.map((item: any, idx: number) => (
+            <PokemonCard
+              key={item.id}
+              name={item.name.toUpperCase()}
+              image={item.sprites?.other?.dream_world?.front_default}
+              type={item.types}
+              url={item.species.url}
+              id={idx}
+            />
+          ))}
+        </div>
+      )}
     </section>
   );
 };

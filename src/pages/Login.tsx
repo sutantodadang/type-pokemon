@@ -1,11 +1,12 @@
-import React, { useReducer, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch, RootStateOrAny } from 'react-redux';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { LoginAction } from '../Redux/actions';
+import { useNavigate } from 'react-router-dom';
+import { GetListPokemon } from '../functions/API';
+import { GetAllPokemon, LoginAction } from '../Redux/actions';
 import { User } from '../Redux/interfaces';
+import { getAllPokemonApi } from '../Redux/reducer/pokemon_reducer';
 
 const Login: React.FC = () => {
-  const location = useLocation();
   const navigate = useNavigate();
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -44,13 +45,17 @@ const Login: React.FC = () => {
     if (email === state.email && password === state.password) {
       dispatch(LoginAction(true));
 
-      console.log(state);
-
-      console.log(location);
-
       navigate('/home', { replace: true });
     }
   };
+
+  useEffect(() => {
+    dispatch(getAllPokemonApi(40));
+  }, []);
+
+  useEffect(() => {
+    setMessage('');
+  }, [message]);
 
   return (
     <div className="flex items-center justify-center h-screen w-screen content-center">

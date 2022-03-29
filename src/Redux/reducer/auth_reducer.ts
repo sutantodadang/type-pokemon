@@ -1,3 +1,4 @@
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ActionTypes, LOGIN, REGISTER } from '../actions';
 import { User } from '../interfaces';
 
@@ -23,3 +24,18 @@ export const AuthReducer = (
       return state;
   }
 };
+
+export const AuthSlice = createSlice({
+  name: 'auth',
+  initialState,
+  reducers: {
+    login: (state, action: PayloadAction<any>) => {
+      return { ...state, isLogged: action.payload };
+    },
+    register: (state, action: PayloadAction<any>) => {
+      return { ...state, ...action.payload };
+    }
+  }
+});
+
+export const { login, register } = AuthSlice.actions;
