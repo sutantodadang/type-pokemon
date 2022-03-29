@@ -1,7 +1,6 @@
-import { createStore, applyMiddleware, combineReducers } from 'redux';
-import { AuthReducer, AuthSlice } from './reducer/auth_reducer';
+import { AuthSlice } from './reducer/auth_reducer';
 import { PokemonSlice } from './reducer/pokemon_reducer';
-import { GlobalReducer, GlobalSlice } from './reducer/global_reducer';
+import { GlobalSlice } from './reducer/global_reducer';
 
 import logger from 'redux-logger';
 import { configureStore } from '@reduxjs/toolkit';

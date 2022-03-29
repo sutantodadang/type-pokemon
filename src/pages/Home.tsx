@@ -1,20 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
+import { RootStateOrAny, useSelector } from 'react-redux';
 import LoadingComp from '../components/LoadingComp';
 import PokemonCard from '../components/PokemonCard';
-import { GetListPokemon } from '../functions/API';
-import { GetAllPokemon, LoadingGlobal } from '../Redux/actions';
 import { Pokemon } from '../Redux/interfaces';
 
 const Home: React.FC = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  // const dispatch = useDispatch();
 
   // const [loading, setLoading] = useState<boolean>(false);
 
-  const [count, setCount] = useState<number>(0);
-  const [limit, setLimit] = useState<number>(20);
+  // const [count, setCount] = useState<number>(0);
+  // const [limit, setLimit] = useState<number>(20);
 
   const loading: boolean = useSelector(
     (state: RootStateOrAny) => state.globalState?.loading
@@ -24,25 +20,25 @@ const Home: React.FC = () => {
     (state: RootStateOrAny) => state.poke?.data
   );
 
-  const nextPoke = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+  // const nextPoke = (e: React.MouseEvent<HTMLButtonElement>) => {
+  //   e.preventDefault();
 
-    if (data.length - 5 === count) {
-      // setCount(0);
-      setLimit((prev) => prev + 20);
-      // dispatch(LoadingGlobal(true));
-      GetListPokemon(limit).then((res) => dispatch(GetAllPokemon(res)));
-      // dispatch(LoadingGlobal(false));
-    }
+  //   if (data.length - 5 === count) {
+  //     // setCount(0);
+  //     setLimit((prev) => prev + 20);
+  //     // dispatch(LoadingGlobal(true));
+  //     GetListPokemon(limit).then((res) => dispatch(GetAllPokemon(res)));
+  //     // dispatch(LoadingGlobal(false));
+  //   }
 
-    setCount((prev) => prev + 1);
-  };
+  //   setCount((prev) => prev + 1);
+  // };
 
-  const prevPoke = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+  // const prevPoke = (e: React.MouseEvent<HTMLButtonElement>) => {
+  //   e.preventDefault();
 
-    setCount((prev) => prev - 1);
-  };
+  //   setCount((prev) => prev - 1);
+  // };
 
   return (
     <section className="flex items-center justify-center h-screen w-screen content-center flex-col m-4">
