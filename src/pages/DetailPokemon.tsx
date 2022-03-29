@@ -30,7 +30,7 @@ const DetailPokemon: React.FC = () => {
 
   useEffect(() => {
     dispatch(LoadingGlobal(false));
-  }, [loading]);
+  }, [loading, dispatch]);
 
   return (
     <section className="flex flex-col w-screen h-screen items-center p-8 justify-between">

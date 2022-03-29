@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch, RootStateOrAny } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { GetListPokemon } from '../functions/API';
-import { GetAllPokemon, LoginAction } from '../Redux/actions';
+import { LoginAction } from '../Redux/actions';
 import { User } from '../Redux/interfaces';
 import { getAllPokemonApi } from '../Redux/reducer/pokemon_reducer';
 
@@ -51,7 +50,7 @@ const Login: React.FC = () => {
 
   useEffect(() => {
     dispatch(getAllPokemonApi(40));
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     setMessage('');
